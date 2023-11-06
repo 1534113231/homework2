@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册会员</title>
+    <style>
+ .adress0 {
+        width: 500px;
+height: 800px;
+padding: 25px;
+border: 5px solid black;
+margin: 30px;
+box-sizing: border-box;
+background-color: whitesmoke;
+}
+.color1{
+    color:blue ;
+}
+.color2{
+    color: red;
+}
+    </style>
+  </head>
+  <body class="adress0">
+    <div>
+      <h4 class="color1">欢迎注册会员</h4>
+      <form action="yanzhengma.html" method="post" >
+<!--手机号码-->
+          <div>
+              <label for="username">手机号码：</label>
+              <input type="text"  name="username" id="username" placeholder="11位手机号">
+              <span class="color2">必填</span>
+          </div>
+<!--创建密码-->
+          <div>
+              <label for="psd">创建密码：</label>
+              <input type="password" name="psd" id="psd" placeholder="8位密码" maxlength="8">
+              <span class="color2">必填</span>
+          </div>
+<!--注册邮箱-->
+          <div>
+              <label for="email">注册邮箱：</label>
+              <input type="email" class="form_control" name="email" id="email" placeholder="wustzz@sina.com">
+              <span class="color2">必填</span>
+          </div>
+<!--验证码-->
+          <div>
+              <label for="vcode">&nbsp;&nbsp;&nbsp;验证码：</label>
+              <input type="text" class="form_control" id="vcode" name="vcode">
+              <span id="capcha"></span>
+              <img src="arrow_03.png" id="change_capcha" alt="" width="30" style="vertical-align: middle;">
+          </div>
+<!--男女单选框-->
+          <div>
+              <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性别：</label>
+              <label class="sex"><input type="radio" name="sex" value="male" checked="checked">男</label>
+              <label class="sex"><input type="radio" name="sex" value="female">女</label>
+          </div>
+ <!--生日-->
+          <div>
+              <label for="birth">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;生日：</label>
+              <input type="date" name="birth" id="birth">
+          </div>
+<!--年龄-->
+          <div>
+              <label for="years">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年龄：</label>
+              <input type="number" name="years" id="years" min="1" max="120" step="1">
+          </div>
+<!--籍贯（列表框）-->
+          <div>
+              <label for="place">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;籍贯：</label>
+              <select name="place1" id="place1">
+                  <option value="0">湖北省</option>
+                  <option value="1">湖南省</option>
+                  <option value="2">广东省</option>
+              </select>
+              <select name="place2" id="place2">
+                  <option value="0">武汉</option>
+                  <option value="1">长沙</option>
+                  <option value="2">广州</option>
+              </select>
+          </div>
+<!--个人学历（列表框）-->
+          <div>
+              <label for="study">个人学历:</label>
+              <select name="study" id="study">
+                  <option value="0" selected="selected">本科</option>
+                  <option value="1">硕士</option>
+                  <option value="2">博士</option>
+              </select>
+          </div>
+<!--月薪（）-->
+          <div>
+            <label for="money">月薪：</label>
+            <input type="range" name="money" id="money" min="0" max="10000" step="10" value="5000">¥
+            <span id="showmoney"></span>
+          </div>
+<!--个人爱好（复选框）-->
+          <div>
+              <label>个人爱好：</label>
+              <label><input type="checkbox" name="likes" id="likes" value="sing">唱歌</label>
+              <label><input type="checkbox" name="likes" id="likes" value="dance">跑步</label>
+              <label><input type="checkbox" name="likes" id="likes" value="dance">游泳</label>
+          </div>
+<!--个人照片（文件域）-->
+          <div>
+              <label>个人照片：</label>
+              <input type="file" id="person_photo" accept="image/*">
+              <div id="person_photo_preview">
+
+              </div>
+          </div>
+<!--个人简历-->
+          <div>
+              <label>个人简介：</label>
+              <textarea name="intro" cols="30" rows="10"></textarea>
+          </div>
+<!--提交重填-->
+          <div>
+              <input type="submit" value=提交>
+              <input type="reset"  value=重填>
+          </div>
+<!--滑块代码实现-->
+<script>
+    var showmoney = document.getElementById("showmoney");
+    window.onload = function () {
+      showmoney.innerHTML = document.getElementById("money").value;
+    };
+    document.getElementById("money").onchange = function () {
+      showmoney.innerHTML = this.value;
+    };
+  </script>
+<!--验证码代码实现-->
+          <script>
+            var codeStr = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var capcha = document.getElementById('capcha');
+            var change_capcha = document.getElementById('change_capcha');
+            // 用来生成随机整数
+            function getRandom(n, m) { // param: (Number, Number)
+                n = Number(n);
+                m = Number(m);
+                // 确保 m 始终大于 n
+                if (n > m) {
+                    var temp = n;
+                    n = m;
+                    m = temp;
+                }
+                // 下有详细说明
+                return Math.floor(Math.random() * (m - n) + n);
+            }
+            // 将随机生成的整数下标对应的字母放入span中
+            function getCode() {
+                var str = '';
+                // 验证码有几位就循环几次
+                for (var i = 0; i < 4; i++) {
+                    var ran = getRandom(0, 62);
+                    str += codeStr.charAt(ran);
+                }
+                capcha.innerHTML = str;
+            }
+            getCode(); // 调用函数，页面刷新也会刷新验证码
+    
+            // 点击刷新验证码        
+            capcha.onclick = function () {
+                getCode();
+            }
+            change_capcha.onclick = function () {
+                getCode();
+            }
+ /*预览照片*/      
+            //功能：预览照片
+            var fileInput = document.getElementById('person_photo');
+            var preview = document.getElementById('person_photo_preview');
+    
+            fileInput.addEventListener('change', function () { // 监听change事件
+                preview.style.backgroundImage = ''; // 清除背景图片          
+                if (!fileInput.value) {
+                    return;
+                }
+                var file = fileInput.files[0]; // 获取File引用
+                if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+                    alert('不是有效的图片文件!');
+                    return;
+                }
+                var reader = new FileReader(); // 读取文件
+                reader.onload = function (e) { // 发起一个异步操作来读取文件内容
+                    var data = e.target
+                        .result; // data串形如： 'data:image/jpeg;base64,/9j/4AAQSk...(base64编码)...'                            
+                    preview.style.backgroundImage = 'url(' + data + ')';
+                };
+                reader.readAsDataURL(file); // 以DataURL的形式读取文件
+            });
+        </script>
+    
+      </form>
+  </div>
+
+  </body>
+</html>
